@@ -3,6 +3,7 @@ export const dynamic = "force-dynamic";
 
 import { createApiClient } from "@template/api-client";
 import { PostForm } from "./_components/post-form";
+import { PostsListClient } from "./_components/posts-list-client";
 
 type Post = {
   id: number;
@@ -48,12 +49,23 @@ export default async function ExamplesPage() {
         </ul>
       </section>
 
-      {/* ── Client Component ────────────────────────────── */}
+      {/* ── useApiQuery (React Query 캐싱) ──────────────── */}
       <section className="space-y-4">
         <div>
-          <h2 className="text-lg font-semibold">Client Component</h2>
+          <h2 className="text-lg font-semibold">useApiQuery</h2>
           <p className="text-sm text-gray-500">
-            버튼 클릭으로 클라이언트에서 API 호출
+            30초 캐시 — 재호출해도 staleTime 이내면 API 요청 없음
+          </p>
+        </div>
+        <PostsListClient />
+      </section>
+
+      {/* ── useApiMutation ──────────────────────────────── */}
+      <section className="space-y-4">
+        <div>
+          <h2 className="text-lg font-semibold">useApiMutation</h2>
+          <p className="text-sm text-gray-500">
+            버튼 클릭으로 클라이언트에서 POST 호출
           </p>
         </div>
         <PostForm />

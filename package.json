@@ -11,6 +11,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.0.0",
     "@template/api-client": "*",
     "@template/ui": "*",
     "next": "^16",

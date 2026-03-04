@@ -4,9 +4,11 @@
   "private": true,
   "exports": {
     ".": "./src/index.ts",
+    "./hooks": "./src/hooks.ts",
     "./types": "./src/types.ts"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.0.0",
     "axios": "^1.7.9"
   },
   "devDependencies": {
