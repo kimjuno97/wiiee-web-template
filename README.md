@@ -138,7 +138,32 @@ const nextConfig = {
 
 > `transpilePackages` 덕분에 패키지에 별도 빌드 과정이 없습니다. 소스 파일(`.ts`, `.tsx`)을 직접 참조하고 Next.js가 컴파일합니다.
 
-### 4. 환경변수
+### 4. API Route 사용 기준
+
+App Router의 Server Component가 외부 API를 직접 호출할 수 있기 때문에, **단순 데이터 패칭 목적으로 API Route를 만들 필요가 없습니다.**
+
+**써야 하는 경우**
+
+| 상황 | 이유 |
+|------|------|
+| 외부 서비스 Webhook 수신 | Stripe, GitHub 등이 서버 엔드포인트로 직접 POST를 쏨 |
+| Client Component + 시크릿 키 | `NEXT_PUBLIC_` 환경변수는 브라우저에 노출되므로, 키를 숨기려면 API Route를 프록시로 사용 |
+| 파일 업로드, 인증 처리 | 서버에서만 처리해야 하는 로직을 Client Component에서 트리거할 때 |
+| 여러 API 조합 (BFF) | 다수의 외부 API를 서버에서 합쳐 클라이언트에 단일 응답으로 내려줄 때 |
+
+**쓰지 않아도 되는 경우**
+
+```
+// ❌ 불필요한 API Route 경유
+Client Component → /api/posts → 외부 API
+
+// ✅ Server Component에서 직접 호출
+Server Component → 외부 API
+```
+
+> Client Component에서 서버 로직을 실행해야 한다면 API Route 대신 **Server Action**도 고려할 수 있습니다.
+
+### 5. 환경변수
 
 `.env.example`을 참고해 `.env.local`을 생성합니다.
 
