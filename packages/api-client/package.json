@@ -5,6 +5,7 @@
   "exports": {
     ".": "./src/index.ts",
     "./hooks": "./src/hooks.ts",
+    "./query-keys": "./src/query-keys.ts",
     "./types": "./src/types.ts"
   },
   "dependencies": {

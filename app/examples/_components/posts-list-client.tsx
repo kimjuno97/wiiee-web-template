@@ -2,12 +2,13 @@
 
 import { useApiQuery } from "@template/api-client/hooks";
 import { Button } from "@template/ui/button";
+import { postKeys } from "@/lib/query-keys";
 
 type Post = { id: number; title: string; body: string };
 
 export function PostsListClient() {
   const { data, isFetching, refetch, dataUpdatedAt } = useApiQuery<Post[]>(
-    ["posts", "client"],
+    postKeys.list({ _limit: 5 }),
     "/posts",
     { params: { _limit: 5 } },
     { staleTime: 1000 * 30 } // 30초 캐시 — 이 시간 내 재호출은 API 요청 없음

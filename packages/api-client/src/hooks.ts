@@ -2,6 +2,7 @@
 import {
   useQuery,
   useMutation,
+  type QueryKey,
   type UseQueryOptions,
   type UseMutationOptions,
 } from "@tanstack/react-query";
@@ -28,7 +29,7 @@ type Method = "post" | "put" | "patch" | "delete";
  * );
  */
 export function useApiQuery<T>(
-  queryKey: unknown[],
+  queryKey: QueryKey,
   url: string,
   config?: AxiosRequestConfig,
   options?: Omit<UseQueryOptions<T, ApiError>, "queryKey" | "queryFn">

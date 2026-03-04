@@ -2,12 +2,25 @@
 
 import { useApiMutation } from "@template/api-client/hooks";
 import { Button } from "@template/ui/button";
+import { useQueryClient } from "@tanstack/react-query";
+import { postKeys } from "@/lib/query-keys";
 
 type Post = { id: number; title: string; body: string };
 type CreatePostBody = { title: string; body: string; userId: number };
 
 export function PostForm() {
-  const { mutate, data, isPending, error } = useApiMutation<Post, CreatePostBody>("/posts");
+  const queryClient = useQueryClient();
+
+  const { mutate, data, isPending, error } = useApiMutation<Post, CreatePostBody>(
+    "/posts",
+    "post",
+    {
+      onSuccess: () => {
+        // "posts"로 시작하는 캐시 전부 무효화 → 목록 자동 갱신
+        queryClient.invalidateQueries({ queryKey: postKeys.all() });
+      },
+    }
+  );
 
   return (
     <div className="space-y-4">
