@@ -19,6 +19,7 @@ async function getPosts(): Promise<Post[]> {
   const res = await serverApi.get<Post[]>("/posts", {
     params: { limit: 5 },
   });
+  await new Promise((resolve) => setTimeout(resolve, 2000)); // API 호출 지연 시뮬레이션
   return res.data;
 }
 
