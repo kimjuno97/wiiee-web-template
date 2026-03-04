@@ -22,35 +22,33 @@ npm workspaces 기반 Next.js 모노레포 템플릿. 별도 모노레포 도구
 
 ```
 wiiee-web-template/
-├── package.json              # 루트 — npm workspaces 설정
+├── package.json              # npm workspaces 설정 + Next.js 앱 겸용
 ├── tsconfig.base.json        # 공통 TypeScript 설정
+├── tsconfig.json             # Next.js TypeScript 설정
+├── next.config.js
+├── postcss.config.mjs
+├── .env.example
 │
-├── packages/                 # 공통 패키지
-│   ├── ui/                   # @template/ui — 공통 UI 컴포넌트
-│   │   ├── package.json
-│   │   ├── tsconfig.json
-│   │   └── src/
-│   │       ├── button.tsx    # Button 컴포넌트 (CVA 기반)
-│   │       └── utils.ts      # cn() 유틸리티
-│   │
-│   └── api-client/           # @template/api-client — HTTP 클라이언트
-│       ├── package.json
-│       ├── tsconfig.json
-│       └── src/
-│           ├── client.ts     # axios 인스턴스 + interceptors
-│           ├── types.ts      # ApiResponse, ApiError 타입
-│           └── index.ts      # export 진입점
+├── app/                      # Next.js 앱
+│   ├── layout.tsx
+│   ├── page.tsx
+│   └── globals.css           # Tailwind 설정 포함
 │
-└── apps/
-    └── web/                  # Next.js 앱
-        ├── app/
-        │   ├── layout.tsx
-        │   ├── page.tsx
-        │   └── globals.css   # Tailwind 설정 포함
-        ├── next.config.js
-        ├── postcss.config.mjs
+└── packages/                 # 공통 패키지
+    ├── ui/                   # @template/ui — 공통 UI 컴포넌트
+    │   ├── package.json
+    │   ├── tsconfig.json
+    │   └── src/
+    │       ├── button.tsx    # Button 컴포넌트 (CVA 기반)
+    │       └── utils.ts      # cn() 유틸리티
+    │
+    └── api-client/           # @template/api-client — HTTP 클라이언트
+        ├── package.json
         ├── tsconfig.json
-        └── .env.example
+        └── src/
+            ├── client.ts     # axios 인스턴스 + interceptors
+            ├── types.ts      # ApiResponse, ApiError 타입
+            └── index.ts      # export 진입점
 ```
 
 ---
@@ -80,8 +78,7 @@ npm run build
 
 1. GitHub에 push
 2. Vercel에서 프로젝트 import
-3. **Root Directory** → `apps/web` 설정
-4. Deploy
+3. Deploy (Root Directory 설정 불필요)
 
 ---
 
@@ -114,11 +111,11 @@ packages/ui/src/form/input.tsx  ✅
 
 ### 2. Tailwind 클래스가 적용되지 않을 때
 
-`apps/web/app/globals.css`의 `@source` 경로가 UI 패키지를 스캔하도록 설정되어 있습니다.
+`app/globals.css`의 `@source` 경로가 UI 패키지를 스캔하도록 설정되어 있습니다.
 
 ```css
 /* globals.css */
-@source "../../packages/ui/src/**/*.tsx";
+@source "../packages/ui/src/**/*.tsx";
 ```
 
 - `src/` 아래 `.tsx` 파일이면 자동으로 스캔됩니다.
@@ -126,7 +123,7 @@ packages/ui/src/form/input.tsx  ✅
 
 ### 3. 새 패키지 추가 (`packages/` 아래)
 
-새 패키지를 만들면 `apps/web/next.config.js`의 `transpilePackages`에 등록해야 Next.js가 TypeScript 소스를 직접 읽을 수 있습니다.
+새 패키지를 만들면 `next.config.js`의 `transpilePackages`에 등록해야 Next.js가 TypeScript 소스를 직접 읽을 수 있습니다.
 
 ```js
 // next.config.js
@@ -143,10 +140,10 @@ const nextConfig = {
 
 ### 4. 환경변수
 
-`apps/web/.env.example`을 참고해 `.env.local`을 생성합니다.
+`.env.example`을 참고해 `.env.local`을 생성합니다.
 
 ```bash
-cp apps/web/.env.example apps/web/.env.local
+cp .env.example .env.local
 ```
 
 `@template/api-client`는 `NEXT_PUBLIC_API_URL` 환경변수를 읽습니다.
