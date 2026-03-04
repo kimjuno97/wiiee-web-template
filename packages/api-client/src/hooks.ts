@@ -24,7 +24,7 @@ type Method = "post" | "put" | "patch" | "delete";
  * const { data, isFetching } = useApiQuery<Post[]>(
  *   ["posts"],
  *   "/posts",
- *   { params: { _limit: 5 } },
+ *   { params: { limit: 5 } },
  *   { staleTime: 1000 * 60 }
  * );
  */
@@ -32,7 +32,7 @@ export function useApiQuery<T>(
   queryKey: QueryKey,
   url: string,
   config?: AxiosRequestConfig,
-  options?: Omit<UseQueryOptions<T, ApiError>, "queryKey" | "queryFn">
+  options?: Omit<UseQueryOptions<T, ApiError>, "queryKey" | "queryFn">,
 ) {
   return useQuery<T, ApiError>({
     queryKey,
@@ -58,7 +58,7 @@ export function useApiQuery<T>(
 export function useApiMutation<TData, TVariables = unknown>(
   url: string,
   method: Method = "post",
-  options?: UseMutationOptions<TData, ApiError, TVariables>
+  options?: UseMutationOptions<TData, ApiError, TVariables>,
 ) {
   return useMutation<TData, ApiError, TVariables>({
     mutationFn: async (variables) => {

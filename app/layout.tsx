@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <body className={geist.className}>
+      <body className={geist.className} suppressHydrationWarning>
         <Providers>{children}</Providers>
       </body>
     </html>

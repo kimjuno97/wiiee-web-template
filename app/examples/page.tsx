@@ -8,7 +8,7 @@ import { PostsListClient } from "./_components/posts-list-client";
 type Post = {
   id: number;
   title: string;
-  body: string;
+  content: string;
 };
 
 // 서버 컴포넌트에서는 createApiClient로 인스턴스를 직접 생성해 사용
@@ -17,14 +17,14 @@ const serverApi = createApiClient(process.env.NEXT_PUBLIC_API_URL);
 
 async function getPosts(): Promise<Post[]> {
   const res = await serverApi.get<Post[]>("/posts", {
-    params: { _limit: 5 },
+    params: { limit: 5 },
   });
   return res.data;
 }
 
 export default async function ExamplesPage() {
   const posts = await getPosts();
-
+  console.log("캐시?? 서버에서 API 호출 결과:", posts);
   return (
     <main className="max-w-2xl mx-auto p-8 space-y-10">
       <h1 className="text-2xl font-bold">API Client 예시</h1>
@@ -42,7 +42,7 @@ export default async function ExamplesPage() {
             <li key={post.id} className="p-4 border rounded-md">
               <p className="font-medium text-sm">{post.title}</p>
               <p className="text-xs text-gray-500 mt-1 line-clamp-1">
-                {post.body}
+                {post.content}
               </p>
             </li>
           ))}
