@@ -1,7 +1,7 @@
 "use client";
 
-import { useApiQuery } from "@template/api-client/hooks";
-import { Button } from "@template/ui/button";
+import { useApiQuery } from "@wiiee/api-client/hooks";
+import { Button } from "@wiiee/ui/button";
 import { postKeys } from "@/lib/query-keys";
 
 type Post = { id: number; title: string; content: string };

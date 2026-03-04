@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  transpilePackages: ["@template/ui", "@template/api-client"],
+  transpilePackages: ["@wiiee/ui", "@wiiee/api-client"],
 };
 
 export default nextConfig;

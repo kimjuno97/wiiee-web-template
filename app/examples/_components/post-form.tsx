@@ -1,7 +1,7 @@
 "use client";
 
-import { useApiMutation } from "@template/api-client/hooks";
-import { Button } from "@template/ui/button";
+import { useApiMutation } from "@wiiee/api-client/hooks";
+import { Button } from "@wiiee/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
 import { postKeys } from "@/lib/query-keys";
 

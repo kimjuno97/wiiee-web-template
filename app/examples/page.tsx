@@ -1,7 +1,7 @@
 // 외부 API를 호출하므로 빌드 시 정적 생성하지 않고 요청마다 서버에서 렌더링
 export const dynamic = "force-dynamic";
 
-import { createApiClient } from "@template/api-client";
+import { createApiClient } from "@wiiee/api-client";
 import { PostForm } from "./_components/post-form";
 import { PostsListClient } from "./_components/posts-list-client";
 

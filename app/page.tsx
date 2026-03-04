@@ -1,4 +1,4 @@
-import { Button } from "@template/ui/button";
+import { Button } from "@wiiee/ui/button";
 
 export default function Home() {
   return (

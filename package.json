@@ -12,8 +12,8 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.0.0",
-    "@template/api-client": "*",
-    "@template/ui": "*",
+    "@wiiee/api-client": "*",
+    "@wiiee/ui": "*",
     "next": "^16",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
