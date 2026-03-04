@@ -4,9 +4,9 @@ node_modules/
 .pnp.js
 
 # next.js
-apps/web/.next/
-apps/web/out/
-apps/web/build
+.next/
+out/
+build
 
 # env
 .env
