@@ -1,4 +1,8 @@
 @import "tailwindcss";
+
+/* Tailwind v4는 앱 디렉토리만 자동 스캔하므로,
+   외부 패키지(packages/ui)에서 사용하는 클래스가 누락되지 않도록 명시적으로 스캔 경로를 추가.
+   새 패키지에서 Tailwind 클래스를 사용한다면 @source를 추가해야 함. */
 @source "../../packages/ui/src/**/*.tsx";
 
 @layer base {
