@@ -11,7 +11,7 @@ type User = {
 type AuthContextValue = {
   user: User | null;
   token: string | null;
-  login: (token: string, user: User) => void;
+  login: (token: string, refreshToken: string, user: User) => void;
   logout: () => void;
 };
 
@@ -33,8 +33,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  function login(token: string, user: User) {
-    localStorage.setItem(TOKEN_KEY, JSON.stringify({ token, user }));
+  function login(token: string, refreshToken: string, user: User) {
+    localStorage.setItem(TOKEN_KEY, JSON.stringify({ token, refreshToken, user }));
     setToken(token);
     setUser(user);
   }
