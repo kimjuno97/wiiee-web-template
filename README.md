@@ -32,7 +32,10 @@ wiiee-web-template/
 ├── app/                      # Next.js 앱
 │   ├── layout.tsx
 │   ├── page.tsx
-│   └── globals.css           # Tailwind 설정 포함
+│   ├── globals.css           # Tailwind 설정 포함
+│   ├── providers.tsx         # QueryClientProvider
+│   └── lib/
+│       └── query-keys.ts     # 리소스별 Query Key 정의
 │
 └── packages/                 # 공통 패키지
     ├── ui/                   # @template/ui — 공통 UI 컴포넌트
@@ -47,6 +50,8 @@ wiiee-web-template/
         ├── tsconfig.json
         └── src/
             ├── client.ts     # axios 인스턴스 + interceptors
+            ├── hooks.ts      # useApiQuery, useApiMutation
+            ├── query-keys.ts # createQueryKeys 유틸리티
             ├── types.ts      # ApiResponse, ApiError 타입
             └── index.ts      # export 진입점
 ```
@@ -138,7 +143,38 @@ const nextConfig = {
 
 > `transpilePackages` 덕분에 패키지에 별도 빌드 과정이 없습니다. 소스 파일(`.ts`, `.tsx`)을 직접 참조하고 Next.js가 컴파일합니다.
 
-### 4. API Route 사용 기준
+### 4. Query Key 관리
+
+React Query는 `queryKey`를 직렬화해서 비교하므로 배열을 매 렌더마다 새로 만들어도 캐시에는 문제가 없습니다. 하지만 컴포넌트마다 문자열을 직접 쓰면 오타나 무효화 범위 실수가 생길 수 있어, `app/lib/query-keys.ts` 한 곳에서 관리합니다.
+
+```ts
+// app/lib/query-keys.ts
+import { createQueryKeys } from "@template/api-client/query-keys";
+
+export const postKeys = createQueryKeys("posts");
+// 리소스가 늘어나면 여기에 추가
+// export const userKeys = createQueryKeys("users");
+```
+
+`createQueryKeys`가 반환하는 키 구조:
+
+| 메서드 | 반환값 | 용도 |
+|--------|--------|------|
+| `postKeys.all()` | `["posts"]` | 무효화 범위 지정 |
+| `postKeys.detail(id)` | `["posts", id]` | 단건 조회 |
+| `postKeys.list(params?)` | `["posts", "list", params]` | 목록 조회 |
+
+**무효화 범위 활용 예시**
+
+```ts
+// "posts"로 시작하는 캐시 전부 무효화 — all / detail / list 포함
+queryClient.invalidateQueries({ queryKey: postKeys.all() });
+
+// list 캐시만 무효화
+queryClient.invalidateQueries({ queryKey: postKeys.list() });
+```
+
+### 5. API Route 사용 기준
 
 App Router의 Server Component가 외부 API를 직접 호출할 수 있기 때문에, **단순 데이터 패칭 목적으로 API Route를 만들 필요가 없습니다.**
 
